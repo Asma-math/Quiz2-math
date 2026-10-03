@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>اختبار قصير - فصل الجمع</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f5f7fb;
+      color: #222;
+      direction: rtl;
+    }
+
+    .container {
+      width: min(720px, 94%);
+      margin: 25px auto;
+    }
+
+    .header {
+      background: white;
+      border-radius: 18px;
+      padding: 25px 20px;
+      text-align: center;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+      margin-bottom: 18px;
+    }
+
+    .header h1 {
+      margin: 0 0 10px;
+      color: #4d1c9b;
+      font-size: 25px;
+    }
+
+    .header p {
+      margin: 5px 0;
+      color: #666;
+      font-size: 15px;
+    }
+
+    .teacher {
+      color: #4d1c9b !important;
+      font-weight: bold;
+      margin-top: 12px !important;
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+      margin-bottom: 18px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: #4d1c9b;
+    }
+
+    .question {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+    }
+
+    .question-title {
+      font-weight: bold;
+      font-size: 17px;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .q-number {
+      color: #4d1c9b;
+      font-weight: bold;
+    }
+
+    .q-image {
+      display: block;
+      max-width: 100%;
+      width: auto;
+      max-height: 420px;
+      margin: 15px auto 20px;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f8f9fc;
+      border: 1px solid #e5e5e5;
+      padding: 13px 14px;
+      border-radius: 11px;
+      margin: 9px 0;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .option:hover {
+      background: #f0ecfa;
+      border-color: #cfc0ed;
+    }
+
+    .option input {
+      width: 18px;
+      height: 18px;
+      accent-color: #4d1c9b;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      background: #4d1c9b;
+      color: white;
+      padding: 15px;
+      border-radius: 13px;
+      font-family: inherit;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 5px 0 25px;
+    }
+
+    .submit-btn:hover {
+      opacity: 0.92;
+    }
+
+    .result {
+      display: none;
+      background: white;
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+    }
+
+    .result h2 {
+      color: #4d1c9b;
+      margin-top: 0;
+    }
+
+    .score {
+      font-size: 42px;
+      font-weight: bold;
+      color: #4d1c9b;
+      margin: 15px 0;
+    }
+
+    .encouragement {
+      font-size: 17px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .review {
+      text-align: right;
+      margin-top: 20px;
+    }
+
+    .review-item {
+      padding: 12px;
+      border-radius: 10px;
+      margin: 8px 0;
+      background: #f7f7f7;
+      line-height: 1.7;
+    }
+
+    .correct {
+      border-right: 5px solid #4caf50;
+    }
+
+    .wrong {
+      border-right: 5px solid #e53935;
+    }
+
+    .restart-btn {
+      width: 100%;
+      border: none;
+      background: #61bbff;
+      color: white;
+      padding: 13px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .required {
+      color: #d32f2f;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: 94%;
+      }
+
+      .header h1 {
+        font-size: 21px;
+      }
+
+      .question {
+        padding: 16px;
+      }
+
+      .question-title {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- العنوان -->
+  <div class="header">
+    <h1>اختبار قصير: فصل الجمع</h1>
+    <p>راجعي مهارات الجمع وطبقي ما تعلمتِه</p>
+    <p>عدد الأسئلة: ١٢ سؤالًا &nbsp; | &nbsp; الدرجة: ١٢</p>
+    <p class="teacher">معلمة الرياضيات: أسماء آل عثمان</p>
+    <p>العام الدراسي ١٤٤٨هـ</p>
+  </div>
+
+  <form id="quizForm">
+
+    <!-- اسم الطالبة -->
+    <div class="info-card">
+      <label for="studentName">
+        اسم الطالبة <span class="required">*</span>
+      </label>
+
+      <input
+        type="text"
+        id="studentName"
+        placeholder="اكتبي اسمك هنا"
+        required
+      />
+    </div>
+
+
+    <!-- السؤال 1 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ١:</span>
+        خاصيةُ الإبدال في عملية الجمع تعني أن تغيير ترتيب الأعداد لا يغيّر ناتج الجمع.
+      </div>
+
+      <label class="option">
+        <input type="radio" name="q1" value="صح">
+        <span>صح</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q1" value="خطأ">
+        <span>خطأ</span>
+      </label>
+    </div>
+
+
+    <!-- السؤال 2 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ٢:</span>
+        أكملي الفراغ بالعدد المناسب، واذكري اسم الخاصية:
+      </div>
+
+      <img
+        src="assets/question-02.jpg"
+        class="q-image"
+        alt="صورة السؤال الثاني"
+        onerror="this.hidden=true"
+      >
+
+      <label class="option">
+        <input type="radio" name="q2" value="٧-خاصية الإبدال">
+        <span>العدد ٧ - خاصية الإبدال</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q2" value="٧-خاصية العنصر المحايد">
+        <span>العدد ٧ - خاصية العنصر المحايد</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q2" value="٤-خاصية الإبدال">
+        <span>العدد ٤ - خاصية الإبدال</span>
+      </label>
+    </div>
+
+
+    <!-- السؤال 3 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ٣:</span>
+        ما الخاصية التي توضّحها العملية:
+        ٣ + ٠ = ٣ و ٠ + ٣ = ٣ ؟
+      </div>
+
+      <label class="option">
+        <input type="radio" name="q3" value="خاصية الإبدال">
+        <span>خاصية الإبدال</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q3" value="خاصية العنصر المحايد">
+        <span>خاصية العنصر المحايد</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q3" value="خاصية التجميع">
+        <span>خاصية التجميع</span>
+      </label>
+    </div>
+
+
+    <!-- السؤال 4 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ٤:</span>
+        اكتب العدد المناسب في المربع ثم اختاري الخاصية الصحيحة:
+        ٣ + (□ + ٩) = ٣ + (٩ + ٧)
+      </div>
+
+      <label class="option">
+        <input type="radio" name="q4" value="العدد ٣ - خاصية التجميع">
+        <span>العدد ٣ - خاصية التجميع</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q4" value="العدد ٧ - خاصية التجميع">
+        <span>العدد ٧ - خاصية التجميع</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q4" value="العدد ٩ - خاصية التجميع">
+        <span>العدد ٩ - خاصية التجميع</span>
+      </label>
+    </div>
+
+
+    <!-- السؤال 5 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ٥:</span>
+        قدّري ناتج الجمع (٢١ + ٤٧) باستعمال التقريب.
+      </div>
+
+      <label class="option">
+        <input type="radio" name="q5" value="٦٠">
+        <span>٦٠</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q5" value="٧٠">
+        <span>٧٠</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q5" value="٥٠">
+        <span>٥٠</span>
+      </label>
+    </div>
+
+
+    <!-- السؤال 6 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ٦:</span>
+        لدى سعيد ٤ أحواض يريد زراعتها بالورود، ويزرع في كل حوض ١١ وردة.
+        أقدّر كم وردة يحتاج أن يشتريها لزراعة الأحواض الأربعة
+        (باستعمال التقريب)؟
+      </div>
+
+      <label class="option">
+        <input type="radio" name="q6" value="٢٠">
+        <span>٢٠</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q6" value="١١">
+        <span>١١</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q6" value="٤٠">
+        <span>٤٠</span>
+      </label>
+    </div>
+
+
+    <!-- السؤال 7 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ٧:</span>
+        اشترت المعلمة مستلزمات صفّية.
+        أقدّر مجموع أعداد هذه المستلزمات باستعمال التقريب لأقرب عشرة.
+      </div>
+
+      <img
+        src="assets/question-07.jpg"
+        class="q-image"
+        alt="صورة السؤال السابع"
+        onerror="this.hidden=true"
+      >
+
+      <label class="option">
+        <input type="radio" name="q7" value="٦٠">
+        <span>٦٠</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q7" value="٧٠">
+        <span>٧٠</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q7" value="٨٠">
+        <span>٨٠</span>
+      </label>
+    </div>
+
+
+    <!-- السؤال 8 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ٨:</span>
+        اكتشفي الخطأ:
+        قدّر كلٌّ من عليٍّ وعمر ناتج ٢٦ + ٤٧.
+        مَن منهما اتّبع الطريقة المناسبة لإيجاد الناتج التقديري
+        (التقريب لأقرب عشرة)؟
+      </div>
+
+      <img
+        src="assets/question-08.jpg"
+        class="q-image"
+        alt="صورة السؤال الثامن"
+        onerror="this.hidden=true"
+      >
+
+      <label class="option">
+        <input type="radio" name="q8" value="علي">
+        <span>علي</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q8" value="عمر">
+        <span>عمر</span>
+      </label>
+    </div>
+
+
+    <!-- السؤال 9 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ٩:</span>
+        نظّمت المدرسة زيارتين لمدينة الألعاب.
+        شارك في الأولى ٥٣ طالبًا وفي الثانية ٤٥ طالبًا.
+        أقدّر مجموع الطلاب المشاركين في الزيارتين باستعمال التقريب لأقرب عشرة.
+      </div>
+
+      <label class="option">
+        <input type="radio" name="q9" value="٩٠">
+        <span>٩٠</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q9" value="٩٥">
+        <span>٩٥</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q9" value="١٠٠">
+        <span>١٠٠</span>
+      </label>
+    </div>
+
+
+    <!-- السؤال 10 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ١٠:</span>
+        تتسع حافلةٌ لـ٥٢ طالبًا.
+        إذا كان في الصف الثاني ٣٣ طالبًا وفي الصف الثالث ٢٦ طالبًا،
+        فهل يمكن لطلاب الصفّين أن يركبوا جميعًا في الحافلة؟
+      </div>
+
+      <label class="option">
+        <input type="radio" name="q10" value="نعم">
+        <span>نعم</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q10" value="لا">
+        <span>لا</span>
+      </label>
+    </div>
+
+
+    <!-- السؤال 11 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ١١:</span>
+        أيُّ خاصيةٍ في عملية الجمع تعني أن الطريقة التي نُجَمِّع بها الأعداد
+        لا تُغيِّر ناتج الجمع؟
+      </div>
+
+      <label class="option">
+        <input type="radio" name="q11" value="خاصية الإبدال">
+        <span>خاصية الإبدال</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q11" value="خاصية العنصر المحايد">
+        <span>خاصية العنصر المحايد</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q11" value="خاصية التجميع">
+        <span>خاصية التجميع</span>
+      </label>
+    </div>
+
+
+    <!-- السؤال 12 -->
+    <div class="question">
+      <div class="question-title">
+        <span class="q-number">السؤال ١٢:</span>
+        أيُّ خاصيةٍ في عملية الجمع تعني أنَّ جمع أيِّ عددٍ مع الصِّفر
+        يعطي العدد نفسه؟
+      </div>
+
+      <label class="option">
+        <input type="radio" name="q12" value="خاصية الإبدال">
+        <span>خاصية الإبدال</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q12" value="خاصية العنصر المحايد">
+        <span>خاصية العنصر المحايد</span>
+      </label>
+
+      <label class="option">
+        <input type="radio" name="q12" value="خاصية التجميع">
+        <span>خاصية التجميع</span>
+      </label>
+    </div>
+
+
+    <button type="submit" class="submit-btn">
+      إرسال الاختبار
+    </button>
+
+  </form>
+
+
+  <!-- النتيجة -->
+  <div class="result" id="result">
+
+    <h2>نتيجتك في الاختبار</h2>
+
+    <div class="score" id="score"></div>
+
+    <div class="encouragement" id="encouragement"></div>
+
+    <div class="review" id="review"></div>
+
+    <button class="restart-btn" onclick="location.reload()">
+      إعادة الاختبار
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  /*
+    ضعي هنا رابط Google Apps Script
+    الذي ينتهي بـ /exec
+  */
+
+  const SHEETS_WEB_APP_URL = "ضعي_رابط_Google_Apps_Script_هنا";
+
+
+  const questions = [
+
+    {
+      n: 1,
+      answer: "صح"
+    },
+
+    {
+      n: 2,
+      answer: "٧-خاصية الإبدال"
+    },
+
+    {
+      n: 3,
+      answer: "خاصية العنصر المحايد"
+    },
+
+    {
+      n: 4,
+      answer: "العدد ٧ - خاصية التجميع"
+    },
+
+    {
+      n: 5,
+      answer: "٧٠"
+    },
+
+    {
+      n: 6,
+      answer: "٤٠"
+    },
+
+    {
+      n: 7,
+      answer: "٧٠"
+    },
+
+    {
+      n: 8,
+      answer: "علي"
+    },
+
+    {
+      n: 9,
+      answer: "١٠٠"
+    },
+
+    {
+      n: 10,
+      answer: "لا"
+    },
+
+    {
+      n: 11,
+      answer: "خاصية التجميع"
+    },
+
+    {
+      n: 12,
+      answer: "خاصية العنصر المحايد"
+    }
+
+  ];
+
+
+  const form = document.getElementById("quizForm");
+
+  form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const name = document
+      .getElementById("studentName")
+      .value
+      .trim();
+
+    if (!name) {
+      alert("فضلاً اكتبي اسم الطالبة أولاً.");
+      return;
+    }
+
+
+    let score = 0;
+    const responses = {};
+
+    questions.forEach(function(q) {
+
+      const selected = document.querySelector(
+        `input[name="q${q.n}"]:checked`
+      );
+
+      const answer = selected ? selected.value : "";
+
+      responses[`q${q.n}`] = answer;
+
+      if (answer === q.answer) {
+        score++;
+      }
+
+    });
+
+
+    saveResponse({
+      name: name,
+      score: score,
+      answers: questions.map(function(q) {
+        return responses[`q${q.n}`];
+      })
+    });
+
+
+    document.getElementById("quizForm").style.display = "none";
+
+    const result = document.getElementById("result");
+    result.style.display = "block";
+
+
+    document.getElementById("score").textContent =
+      `${score} / 12`;
+
+
+    let encouragement = "";
+
+    if (score === 12) {
+      encouragement =
+        "ممتازة جدًا! 🌟 إجابة رائعة وإتقان مميز لمهارات فصل الجمع.";
+    }
+    else if (score >= 10) {
+      encouragement =
+        "رائعة جدًا! 🌷 لديكِ إتقان ممتاز، استمري بهذا التميز.";
+    }
+    else if (score >= 8) {
+      encouragement =
+        "أحسنتِ! 👏 أداء جميل، واصلي المراجعة للوصول إلى الإتقان.";
+    }
+    else if (score >= 6) {
+      encouragement =
+        "جهد جميل 🌷 راجعي المهارات التي تحتاج إلى مزيد من التدريب.";
+    }
+    else {
+      encouragement =
+        "أحسنتِ على المحاولة 🤍 راجعي درس الجمع وحاولي مرة أخرى.";
+    }
+
+
+    document.getElementById("encouragement").textContent =
+      encouragement;
+
+
+    let reviewHTML = "<h3>مراجعة الإجابات</h3>";
+
+
+    questions.forEach(function(q) {
+
+      const answer = responses[`q${q.n}`];
+
+      const isCorrect = answer === q.answer;
+
+      reviewHTML += `
+        <div class="review-item ${isCorrect ? "correct" : "wrong"}">
+          <strong>السؤال ${q.n}</strong><br>
+          إجابتك:
+          ${answer || "لم تتم الإجابة"}<br>
+          ${isCorrect ? "إجابة صحيحة ✓" : "الإجابة الصحيحة: " + q.answer}
+        </div>
+      `;
+
+    });
+
+
+    document.getElementById("review").innerHTML =
+      reviewHTML;
+
+  });
+
+
+  function saveResponse(record) {
+
+    if (
+      !SHEETS_WEB_APP_URL ||
+      SHEETS_WEB_APP_URL.includes("ضعي_رابط")
+    ) {
+      return;
+    }
+
+
+    const target = document.createElement("form");
+
+    target.method = "POST";
+    target.action = SHEETS_WEB_APP_URL;
+    target.target = "sheetFrame";
+
+
+    const field = document.createElement("input");
+
+    field.type = "hidden";
+    field.name = "payload";
+    field.value = JSON.stringify(record);
+
+    target.appendChild(field);
+
+    document.body.appendChild(target);
+
+    target.submit();
+
+    target.remove();
+
+  }
+
+</script>
+
+
+<!-- إطار مخفي لإرسال البيانات إلى Google Sheets -->
+<iframe
+  name="sheetFrame"
+  style="display:none;">
+</iframe>
+
+</body>
+</html>
